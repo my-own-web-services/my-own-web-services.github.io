@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<script>
+  // SPA fallback for user/org Pages. GitHub Pages returns this file with
+  // a 404 status for any path that has no matching file. We rewrite the
+  // URL so /<sub>/deep/path becomes /<sub>/?/deep/path, then the SPA at
+  // <sub>/index.html decodes ?/ back into the real URL via
+  // history.replaceState before React boots.
+  //
+  // pathSegmentsToKeep is the number of path segments that name the SPA
+  // mount-point (here: 1, for the docs slug like "mows-react-components").
+  // Increase if you nest docs under a sub-namespace.
+  //
+  // Adapted from https://github.com/rafgraph/spa-github-pages.
+  var pathSegmentsToKeep = 1;
+  var l = window.location;
+  l.replace(
+    l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+    l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+    l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+    (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+    l.hash
+  );
+</script>
+</head>
+<body></body>
+</html>
